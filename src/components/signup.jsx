@@ -5,9 +5,11 @@ import HeroImage from '/home/dhrpsr/parth-proj/linkedin-react/src/images/login-h
 import GoogleIcon from '/home/dhrpsr/parth-proj/linkedin-react/src/images/google.svg'
 import GitHubIcon from '/home/dhrpsr/parth-proj/linkedin-react/src/images/Github.png'
 import Facebook from '/home/dhrpsr/parth-proj/linkedin-react/src/images/facebook.png'
+import { useHistory } from 'react-router'
 import firebase from 'firebase'
 import firebaseConfig from './firebase'
-export default function signup() {
+export default function Signup() {
+    const history = useHistory();
     const Hero = Styled.nav`
     /* width:100%; */
     display:flex;
@@ -102,6 +104,8 @@ export default function signup() {
         firebase.auth().signInWithPopup(popup)
         .then((result)=>{
             console.log(result.user)
+            history.push('/home')
+
         })
     }
     const Googleprovider = new firebase.auth.GoogleAuthProvider();
