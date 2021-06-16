@@ -3,9 +3,13 @@ import Styled from 'styled-components'
 import LinkedinLogo from '/home/dhrpsr/parth-proj/linkedin-react/src/images/login-logo.svg'
 import HeroImage from '/home/dhrpsr/parth-proj/linkedin-react/src/images/login-hero.svg'
 import GoogleIcon from '/home/dhrpsr/parth-proj/linkedin-react/src/images/google.svg'
+import GitHubIcon from '/home/dhrpsr/parth-proj/linkedin-react/src/images/Github.png'
+import Facebook from '/home/dhrpsr/parth-proj/linkedin-react/src/images/facebook.png'
+import firebase from 'firebase'
+import firebaseConfig from './firebase'
 export default function signup() {
     const Hero = Styled.nav`
-    width:100%;
+    /* width:100%; */
     display:flex;
     background-color:transparent;
     align-items:center;
@@ -14,8 +18,8 @@ export default function signup() {
         margin:10px;
     }
     img{
-        height:50px;
-        width:200px;
+        height:30px;
+        width:160px;
     }
     div{
         display:flex;
@@ -51,19 +55,29 @@ export default function signup() {
             }
         }
     }
+    
     `
     const Main = Styled.div`
+    /* width:100%; */
+    
     align-items:center;
     justify-content:center;
     text-align:center;
+    h3{
+        color:#0957a5;
+    }
     img{
         max-height:500px;
     }
     button{
+        box-shadow:0px 0px 5px 0px black;
         margin-right:auto;
         margin-left:auto;
-        padding:10px;
-        width:100%;
+        margin-bottom:20px;
+        padding:15px;
+        width:400px;
+        background-color:white;
+        border:2px solid black;
         font-size:20px;
         text-align:center;
         display:flex;
@@ -72,13 +86,27 @@ export default function signup() {
         font-family: 'Lato', sans-serif;
         font-weight:500;
         border-radius:50px;
-        border
-        height:40px;
+         
+        @media only screen and (max-width: 425px){
+            width:100%;
+        }
         *{
             margin:2px;
         }
+        
     }
     `
+
+
+    function signUser(popup){
+        firebase.auth().signInWithPopup(popup)
+        .then((result)=>{
+            console.log(result.user)
+        })
+    }
+    const Googleprovider = new firebase.auth.GoogleAuthProvider();
+    
+
     return (
         <>
         <Hero>
@@ -90,11 +118,12 @@ export default function signup() {
         </Hero>
         <Main>
         <h3>Welcome to our professional community</h3>
-        <img src={HeroImage} alt="" />
-        <button>
+        <img src={HeroImage} alt="" draggable={false} />
+        <button onClick={()=>signUser(Googleprovider)}>
             <img src={GoogleIcon} alt="" />
             Sign In With Google
         </button>
+        
         </Main>
     </>
     )
