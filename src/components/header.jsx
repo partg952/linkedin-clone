@@ -8,20 +8,24 @@ import NavMessaging from '/home/dhrpsr/parth-proj/linkedin-react/src/images/driv
 import NavNetwork from '/home/dhrpsr/parth-proj/linkedin-react/src/images/drive-download-20210616T131844Z-001/nav-network.svg'
 import NavNotifi from '/home/dhrpsr/parth-proj/linkedin-react/src/images/drive-download-20210616T131844Z-001/nav-notifications.svg'
 import NavWork from '/home/dhrpsr/parth-proj/linkedin-react/src/images/drive-download-20210616T131844Z-001/nav-work.svg'
+import firebase from 'firebase'
+import { useHistory } from 'react-router'
+import firebaseconfig from '../components/firebase'
 export default function Header() {
+    const history = useHistory();
     const Navbar = styled.nav`
     user-select: none;
     background-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    position: initial;
     top: 0;
     right: 0;
     left:0;
+    display: flex;
+    flex-wrap: wrap;
+    position: sticky;
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 13px;
     box-shadow: 0px 0px 1px 0px black;
     *{
         margin:5px;
@@ -30,10 +34,37 @@ export default function Header() {
         background-color: white;
         display: flex;
     }
+    .images{
+        height: 50px;
+        width: 50px;
+        margin-right: 20px;
+        border-radius: 50px;
+        
+        
+    }
+    div {
+        
+        #link{
+            transition: visibility 300ms ease-in-out;
+            background-color:white;
+            padding:10px;
+            visibility: hidden;
+            position: absolute;
+            right: 8px;
+            top: 100px;
+        }
+        &:hover{
+            #link{
+                visibility: visible;
+            }
+        }
+    }
+    
     button{
         position: relative;
         background-color: transparent;
         border: 0;
+        margin:0;
         color: #4e4d4d;
         font-weight: 600;
         height: min-content;
@@ -49,7 +80,7 @@ export default function Header() {
         margin-left: auto;
         display: block;
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
     }
     
     @media only screen and (max-width: 800px){
@@ -87,7 +118,7 @@ export default function Header() {
     
     `
     return (
-        <div>
+        
         <Navbar>
             
             <span>
@@ -130,9 +161,29 @@ export default function Header() {
                 </button>
                 
             </span>
+            <div style={{display:'block'},{textAlign:'center'}}>
+
+            {
+                firebase.auth().currentUser!=null?
+                
+                <img src={firebase.auth().currentUser.photoURL}  alt="" className='images'/>
+                :
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt=""  className='images'/>    
+            }
+        <br />
+        <p id='link' onClick={()=>{
+            firebase.auth().signOut().then((user)=>{
+                history.push('/')
+            })
+        }}>
+        Sign
+        <br />
+        Out
+        </p>
+            </div>
             
         </Navbar>
             
-        </div>
+        
     )
 }
